@@ -34,4 +34,4 @@ extern "C" int decompressed_size(const uint8_t* raw_input, int input_size) {
                          woff2::kDefaultMaxSize);
 }
 
-extern "C" int main(){return 0;}
+// extern "C" int main(){return 0;}

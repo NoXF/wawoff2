@@ -26,4 +26,4 @@ extern "C" int compressed_size(const uint8_t* input_data, int input_size) {
   return woff2::MaxWOFF2CompressedSize(input_data, input_size);
 }
 
-extern "C" int main(){return 0;}
+// extern "C" int main(){return 0;}

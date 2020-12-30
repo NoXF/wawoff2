@@ -10,9 +10,9 @@ woff2: brotli
 woff2_c: brotli_c
 	mkdir -p src/woff2/woff2_compress
 	cd src/woff2/woff2_compress; cmake -DBROTLIDEC_INCLUDE_DIRS=../brotli/buildfiles/installed/include \
-	  -DBROTLIDEC_LIBRARIES=../brotli/buildfiles/installed/lib/libbrotlidec.so \
+	  -DBROTLIDEC_LIBRARIES=../brotli/buildfiles/installed/lib64/libbrotlidec.so \
 	  -DBROTLIENC_INCLUDE_DIRS=../brotli/buildfiles/installed/include \
-	  -DBROTLIENC_LIBRARIES=../brotli/buildfiles/installed/lib/libbrotlienc.so ..
+	  -DBROTLIENC_LIBRARIES=../brotli/buildfiles/installed/lib64/libbrotlienc.so ..
 	make -C src/woff2/woff2_compress
 	make fixtures
 
@@ -26,9 +26,9 @@ brotli_mod:
 
 
 fixtures:
-	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:src/woff2/brotli/buildfiles/installed/lib; src/woff2/woff2_compress/woff2_compress test/fixtures/sample.ttf
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:src/woff2/brotli/buildfiles/installed/lib64; src/woff2/woff2_compress/woff2_compress test/fixtures/sample.ttf
 	mv test/fixtures/sample.woff2 test/fixtures/sample_compressed.woff2
-	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:src/woff2/brotli/buildfiles/installed/lib; src/woff2/woff2_compress/woff2_decompress test/fixtures/sample_compressed.woff2
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:src/woff2/brotli/buildfiles/installed/lib64; src/woff2/woff2_compress/woff2_decompress test/fixtures/sample_compressed.woff2
 	mv test/fixtures/sample_compressed.ttf test/fixtures/sample_decompressed.ttf
 
 lint:

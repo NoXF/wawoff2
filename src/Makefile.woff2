@@ -17,8 +17,8 @@ LIBBROTLIENC=$(BROTLI_OUT_DIR)/libbrotlienc-static.bc
 BROTLI_INCLUDE=brotli/c/include
 
 CFLAGS=-std=gnu++11 -s 'ALLOW_MEMORY_GROWTH=1' -s 'EXTRA_EXPORTED_RUNTIME_METHODS=["cwrap"]' -O3
-EXPORT_ENC=-s 'EXPORTED_FUNCTIONS=["_main", "_malloc", "_free", "_compress", "_compressed_size"]'
-EXPORT_DEC=-s 'EXPORTED_FUNCTIONS=["_main", "_malloc", "_free", "_decompress", "_decompressed_size"]'
+EXPORT_ENC=-s 'EXPORTED_FUNCTIONS=["_malloc", "_free", "_compress", "_compressed_size"]'
+EXPORT_DEC=-s 'EXPORTED_FUNCTIONS=["_malloc", "_free", "_decompress", "_decompressed_size"]'
 
 .PHONY: all clean
 
@@ -28,10 +28,10 @@ $(LIBCOMMON): $(OUT_DIR)
 	emcc $(CFLAGS) -o $(LIBCOMMON) $(SRC_LIBCOMMON)
 
 $(DEC): $(OUT_DIR) $(LIBCOMMON)
-	emcc $(CFLAGS) $(EXPORT_DEC) -s WASM=1 -o $(DEC) --pre-js $(MODULE_SETTINGS) -I$(BROTLI_INCLUDE) -I$(INCLUDE) -I$(HDR_IN_SRC) $(SRC_DEC) $(LIBCOMMON) $(LIBBROTLIDEC) $(LIBBROTLICOMMON)
+	emcc $(CFLAGS) -s STANDALONE_WASM $(EXPORT_DEC) -s WASM=1 -o $(DEC) --pre-js $(MODULE_SETTINGS) -I$(BROTLI_INCLUDE) -I$(INCLUDE) -I$(HDR_IN_SRC) $(SRC_DEC) $(LIBCOMMON) $(LIBBROTLIDEC) $(LIBBROTLICOMMON)
 
 $(ENC): $(OUT_DIR) $(LIBCOMMON)
-	emcc $(CFLAGS) $(EXPORT_ENC) -s WASM=1 -o $(ENC) --pre-js $(MODULE_SETTINGS) -I$(BROTLI_INCLUDE) -I$(INCLUDE) -I$(HDR_IN_SRC) $(SRC_ENC) $(LIBCOMMON) $(LIBBROTLIENC) $(LIBBROTLICOMMON)
+	emcc $(CFLAGS) -s STANDALONE_WASM $(EXPORT_ENC) -s WASM=1 -o $(ENC) --pre-js $(MODULE_SETTINGS) -I$(BROTLI_INCLUDE) -I$(INCLUDE) -I$(HDR_IN_SRC) $(SRC_ENC) $(LIBCOMMON) $(LIBBROTLIENC) $(LIBBROTLICOMMON)
 
 $(OUT_DIR):
 	mkdir $(OUT_DIR)
